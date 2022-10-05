@@ -1,28 +1,38 @@
-type ModalValues = {
-    modals: {
-        id: string,
-        create:Function,
-        show: Function,
-        hide: Function,
-        close: Function
-    }[];
+import { ReactElement } from "react";
 
-    push?: Function;
-    pop?: Function;
-}
-
-type ModalSignature = {
+export type ModalSignature = {
     id: string,
-    create:Function,
-    show: Function,
-    hide: Function,
+    title: string,
+    options?: ModalControls[],
+    element: ReactElement<any,any>,
     close: Function
 }
 
-var MODAL_SERVICE: ModalValues;
+export enum ModalControls{
+    EXIT_CROSS, CLOSE_TAB
+}
 
-export function RegisterOperator(){
-    
+type ModalValues = {
+    modals: ModalSignature[];
+
+    open?: Function;
+    close?: Function;
+}
+
+
+var MODAL_SERVICE: ModalValues
+
+export const OPEN = "OPEN"
+export const CLOSE = "CLOSE"
+
+interface ModalOperator{
+    modalUpdated: Function
+}
+
+var operator: ModalOperator
+
+export function RegisterOperator(op: ModalOperator){
+    operator = op
 }
 
 export function Create() : ModalValues {   
@@ -30,29 +40,30 @@ export function Create() : ModalValues {
     if(MODAL_SERVICE) return MODAL_SERVICE;
 
     var modalService: ModalValues = {
-        modals: [],
-        push: undefined 
+        modals: []
     }
 
-    modalService.push = (
-        modal: ModalSignature)=>{
-
-        modalService.modals.push({
+    modalService.open = (modal: ModalSignature) => {
+        var resultModal = {
             id: modal.id,
-            create: modal.create,
-            show: modal.show,
-            hide: modal.hide,
-            close: modal.close
-        });
+            title: modal.title,
+            options: modal.options??[ModalControls.EXIT_CROSS],
+            element: modal.element,
+            close: modal.close??function(){}
+        }
+
+        modalService.modals.push(resultModal);
+
+        operator.modalUpdated(OPEN)
+
+        return resultModal
     }
 
-    modalService.pop = (id: string)=>
-    {
-        var result = modalService.modals.slice(-1)[0]
-        if(result.id !== id)
-            return;
+    modalService.close = () => {        
+        var modal = modalService.modals.pop();
+        modal?.close()
 
-        modalService.modals.pop();
+        operator.modalUpdated(CLOSE)
     }
 
     return MODAL_SERVICE = modalService

@@ -17,7 +17,7 @@ describe('Proper implementation', () => {
         
   })
 
-  it('Locates topebar items', () => {
+  it('Locates topbar items', () => {
 
     var topbarId = 'topbar';
     var topbarItemId = 'topbar-item'
