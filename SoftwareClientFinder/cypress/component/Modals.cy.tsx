@@ -1,5 +1,5 @@
 import { mount } from 'cypress/react'
-import {Create, ModalControls} from '../../components/Functional/ModalService'
+import {GetModalService, ModalControls} from '../../components/Functional/ModalService'
 
 import {Modal} from '../../components/Functional/Modal/Modal'
 import { delay } from 'cypress/types/lodash'
@@ -12,7 +12,7 @@ describe('Modal System', ()=>{
         cy.mount(<Modal id={"modal-entry"}/>)
         .then(()=>{
 
-            var ModalService = Create()
+            var ModalService = GetModalService()
             expect(ModalService.modals.length).to.equal(0)
 
         })
@@ -22,7 +22,7 @@ describe('Modal System', ()=>{
     it('increases to 1 modal on push', ()=>{
         cy.mount(<Modal id={"modal-entry"}/>)
         .then(()=>{
-            var ModalService = Create()
+            var ModalService = GetModalService()
             
             var resultModal = ModalService.open!({
                 id: "test",
@@ -39,7 +39,7 @@ describe('Modal System', ()=>{
     it('Executes modal actions', ()=>{
         cy.mount(<Modal id={"modal-entry"}/>)
         .then(()=>{
-            var ModalService = Create()
+            var ModalService = GetModalService()
             
             const happened: string = 'happened'
 
@@ -69,7 +69,7 @@ describe('Modal System', ()=>{
 describe('Modal System behaves while rendered', ()=>{
 
     it('Locates the element', ()=>{
-        var ModalService = Create()
+        var ModalService = GetModalService()
 
         const modalId: string = 'modal'
 

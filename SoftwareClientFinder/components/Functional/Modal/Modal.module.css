@@ -1,14 +1,28 @@
 .modalContainer{
     background-color: #e1e1e1;
     border-radius: 8px;
-    padding: 10px;    
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 5;
+    background-color: transparent;
+    pointer-events: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 100px);
+    backdrop-filter: blur(0.9px) brightness(1.1)
 }
 
-.modalContainer{
+.innerContainer{
+    padding: 10px;    
+    margin: 10px;    
+    pointer-events: auto;
     display: grid;
     grid-template-columns: auto min-content;
     grid-template-rows: auto;
-    gap: 10px 0px
+    gap: 10px 0px;
+    background-color: #f3f3f3;
 }
 
 .unshown{

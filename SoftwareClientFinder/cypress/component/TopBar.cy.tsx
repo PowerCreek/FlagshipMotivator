@@ -1,6 +1,7 @@
 //import { mount } from 'cypress/react'
 import { mount } from 'cypress/react'
 import {TopBar} from '../../components/Admin/Topbar'
+import {Modal} from '../../components/Functional/Modal/Modal'
 
 describe('Proper implementation', () => {
 
@@ -23,7 +24,10 @@ describe('Proper implementation', () => {
     var topbarItemId = 'topbar-item'
 
     cy.mount(
-      <TopBar/>
+      <div>
+        <Modal id={'modal-entry'}/>
+        <TopBar/>
+      </div>
     )
     
     cy.get(`#${topbarId}`)

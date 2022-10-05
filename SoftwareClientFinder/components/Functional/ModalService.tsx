@@ -3,6 +3,7 @@ import { ReactElement } from "react";
 export type ModalSignature = {
     id: string,
     title: string,
+    modalClass?: string,
     options?: ModalControls[],
     element: ReactElement<any,any>,
     close: Function
@@ -12,7 +13,7 @@ export enum ModalControls{
     EXIT_CROSS, CLOSE_TAB
 }
 
-type ModalValues = {
+export type ModalValues = {
     modals: ModalSignature[];
 
     open?: Function;
@@ -35,7 +36,7 @@ export function RegisterOperator(op: ModalOperator){
     operator = op
 }
 
-export function Create() : ModalValues {   
+export function GetModalService() : ModalValues {   
     
     if(MODAL_SERVICE) return MODAL_SERVICE;
 
@@ -47,6 +48,7 @@ export function Create() : ModalValues {
         var resultModal = {
             id: modal.id,
             title: modal.title,
+            modalClass: modal.modalClass,
             options: modal.options??[ModalControls.EXIT_CROSS],
             element: modal.element,
             close: modal.close??function(){}

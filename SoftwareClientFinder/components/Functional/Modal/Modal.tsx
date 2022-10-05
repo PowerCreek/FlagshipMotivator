@@ -1,10 +1,10 @@
 import { any } from 'cypress/types/bluebird';
 import { ReactElement, useState, useEffect } from 'react';
-import {OPEN, CLOSE, RegisterOperator, Create, ModalSignature, ModalControls} from '../ModalService'
+import {OPEN, CLOSE, RegisterOperator, GetModalService, ModalSignature, ModalControls} from '../ModalService'
 import styles from './Modal.module.css'
 
 export function Modal({id}:{id?:string}){
-    var service = Create()
+    var service = GetModalService()
     const [displayed, setDisplayed] = useState<{modal?:ModalSignature|null}>({modal:null});
 
     useEffect(() => {
@@ -26,10 +26,13 @@ export function Modal({id}:{id?:string}){
 
     var shouldDisplay = displayed.modal !== null?null:styles.unshown
 
+    var innerContainerClass = displayed.modal?.modalClass??styles.innerContainer
+
     return <div 
         id={id}
         className={[styles.modalContainer, shouldDisplay].flatMap(e=>e===null?[]:e).join(' ')}
     >
+        <div className={innerContainerClass}>
         {[
             <div key='control1' className={styles.controlGroup}>
                 <div className={styles.title}>{
@@ -63,6 +66,7 @@ export function Modal({id}:{id?:string}){
                         service.close!()
                     }}></div>
             )
-        ]}        
+        ]}
+        </div>        
     </div>
 }
