@@ -116,5 +116,4 @@ describe('Modal System behaves while rendered', ()=>{
             elem.click()
         })
     })
-
 })

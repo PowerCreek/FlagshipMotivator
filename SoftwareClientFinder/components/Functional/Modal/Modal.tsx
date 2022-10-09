@@ -1,7 +1,8 @@
 import { any } from 'cypress/types/bluebird';
-import { ReactElement, useState, useEffect } from 'react';
+import { ReactElement, useState, useEffect, MouseEvent } from 'react';
 import {OPEN, CLOSE, RegisterOperator, GetModalService, ModalSignature, ModalControls} from '../ModalService'
 import styles from './Modal.module.css'
+  
 
 export function Modal({id}:{id?:string}){
     var service = GetModalService()
@@ -28,9 +29,18 @@ export function Modal({id}:{id?:string}){
 
     var innerContainerClass = displayed.modal?.modalClass??styles.innerContainer
 
+    function onBackgroundClick(ev:MouseEvent<HTMLDivElement>)
+    {
+        if(ev.target.id !== id)
+            return
+        
+        service.close!()
+    } 
+
     return <div 
         id={id}
         className={[styles.modalContainer, shouldDisplay].flatMap(e=>e===null?[]:e).join(' ')}
+        onClick={(e)=>onBackgroundClick(e)}
     >
         <div className={innerContainerClass}>
         {[
