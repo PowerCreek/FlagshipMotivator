@@ -1,7 +1,9 @@
 import { GetModalService, ModalControls, ModalValues } from '../Functional/ModalService'
+import { signIn, signOut, useSession } from "next-auth/react"
 import styles from './Topbar.module.css'
 
-export function TopBar(){
+export function Topbar(){
+    const { data: session, status } = useSession()
 
     const modalService = GetModalService()
 
@@ -23,7 +25,7 @@ export function TopBar(){
                 className={[styles.item, styles.endAdmin].join(' ')}
             >
                 <div className={styles.userAdminSection}
-                    onClick={UserAdminClick(modalService)}
+                    onClick={UserAdminClick(session, modalService)}
                 >{
                     GetUserAdminItem(modalService)
                 }</div>
@@ -32,27 +34,80 @@ export function TopBar(){
     )
 }
 
-function GetUserAdminModal(){
+function GetUserAdminModal(session: any){
     var count = 0
+    var inSession = session?.user !== undefined
+
+    var elementNotInSession = !inSession ? (
+        <div key={inSession.toString()}>
+            <span className={styles.notSignedInText}>{
+                "You are not signed in"
+            }</span>
+            <div
+                className={styles.logoutButton}            
+            >
+                <a
+                href={`/api/auth/signin`}
+                className={styles.logoutLink}
+                onClick={(e) => {
+                    e.preventDefault()
+                    signIn()
+                }}
+                >{
+                    "Sign in"
+                }</a>
+            </div>
+      </div>
+    ) : null
+    console.log(session?.user?.image)
+    var elementInSession = inSession ? (
+        <div 
+            key={inSession.toString()}
+            className={styles.signedInTextContainer}    
+        >
+            {session.user.image && (
+                <img loading={"lazy"} referrerPolicy={"no-referrer"} className={styles.avatar} src={session.user.image}/>
+            )}
+            <div
+            className={styles.logoutButton}
+            >
+            <a
+                href={`/api/auth/signout`}
+                className={styles.logoutLink}
+                onClick={(e) => {
+                    e.preventDefault()
+                    signOut()
+                }}
+                >{"Sign out"}</a>
+        </div>
+            <span 
+                className={styles.signedInText}>
+            <strong>{session.user.email ?? session.user.name}</strong>
+            </span>
+            
+        </div>
+    ) : undefined
+
     return [
-        <div className={styles.signinModalItem} key={count++}>sign in content</div>,
-        <div className={styles.signinModalItem} key={count++}>sign in content</div>,
-        <div className={styles.signinModalItem} key={count++}>sign in content</div>,
+        elementInSession??elementNotInSession
     ]
 }
 
-function UserAdminClick(modalService: ModalValues){
-return ()=>{
-    modalService?.open!(
-        {
-            id: 'userRegistrationModal1',
-            title: 'Sign in',
-            modalClass: styles.signinModal,
-            options: [ModalControls.EXIT_CROSS],
-            element: GetUserAdminModal(),
-            close: ()=>{alert('closed the modal')}
-        }
-    )}
+function UserAdminClick(session: any, modalService: ModalValues){
+
+    var title = session?.user? 'User' : 'Sign in'
+
+    return ()=>{
+        modalService?.open!(
+            {
+                id: 'userRegistrationModal1',
+                title: title,
+                modalClass: styles.signinModal,
+                options: [ModalControls.EXIT_CROSS],
+                element: GetUserAdminModal(session),
+                close: ()=>{}
+            }
+        )}
 }
 
 function GetUserAdminItem(modalService : ModalValues){

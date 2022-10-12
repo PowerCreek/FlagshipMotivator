@@ -1,6 +1,7 @@
 //import { mount } from 'cypress/react'
 import { mount } from 'cypress/react'
-import {TopBar} from '../../components/Admin/Topbar'
+import { SessionProvider } from 'next-auth/react'
+import {Topbar} from '../../components/Admin/Topbar'
 import {Modal} from '../../components/Functional/Modal/Modal'
 
 describe('Proper implementation', () => {
@@ -8,7 +9,9 @@ describe('Proper implementation', () => {
   it('Locates the element', () => {
 
     cy.mount(
-      <TopBar/>
+      <SessionProvider>
+        <Topbar/>
+      </SessionProvider>
     )
     
     cy.get("[data-cy-root]").children().first()
@@ -25,8 +28,10 @@ describe('Proper implementation', () => {
 
     cy.mount(
       <div>
-        <Modal id={'modal-entry'}/>
-        <TopBar/>
+        <SessionProvider>
+          <Modal id={'modal-entry'}/>
+          <Topbar/>
+        </SessionProvider>
       </div>
     )
     

@@ -49,6 +49,9 @@ describe('Modal System', ()=>{
 
             var resultModal = ModalService.open!({
                 id: modalId,
+                close: ()=>{
+                    results[0] = happened;
+                },
                 element: (<div>test</div>)
             })
 
@@ -56,7 +59,6 @@ describe('Modal System', ()=>{
 
             ModalService.close = ()=>{                
                 fun!()
-                results[0] = happened
             }
 
             ModalService.close()
