@@ -1,6 +1,7 @@
 import { GetModalService, ModalControls, ModalValues } from '../Functional/ModalService'
 import { signIn, signOut, useSession } from "next-auth/react"
 import styles from './Topbar.module.css'
+import { NotificationWidget } from '../Functional/Notifications/Notifications'
 
 export function Topbar(){
     const { data: session, status } = useSession()
@@ -24,6 +25,7 @@ export function Topbar(){
                 id={"topbar-item_3"}
                 className={[styles.item, styles.endAdmin].join(' ')}
             >
+                <NotificationWidget></NotificationWidget>
                 <div className={styles.userAdminSection}
                     onClick={UserAdminClick(session, modalService)}
                 >{
@@ -103,7 +105,7 @@ function UserAdminClick(session: any, modalService: ModalValues){
                 id: 'userRegistrationModal1',
                 title: title,
                 modalClass: styles.signinModal,
-                options: [ModalControls.EXIT_CROSS],
+                options: [ModalControls.CLOSE_TAB],
                 element: GetUserAdminModal(session),
                 close: ()=>{}
             }

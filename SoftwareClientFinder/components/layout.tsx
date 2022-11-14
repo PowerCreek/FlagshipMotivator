@@ -9,6 +9,7 @@ interface Props {
 }
 
 export default function Layout({ children }: Props) {
+ 
   return (
     <div className={"body-fill"}>
       <Modal key={0} id={'modal-entry'}/>

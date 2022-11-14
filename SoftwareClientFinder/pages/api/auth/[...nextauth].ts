@@ -1,4 +1,5 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
+import EmailProvider from "next-auth/providers/email"
 import GoogleProvider from "next-auth/providers/google"
 import FacebookProvider from "next-auth/providers/facebook"
 import GithubProvider from "next-auth/providers/github"
@@ -51,6 +52,9 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.AUTH0_SECRET,
       issuer: process.env.AUTH0_ISSUER,
     }),
+    EmailProvider({
+      
+    })
   ],
   theme: {
     colorScheme: "dark",
