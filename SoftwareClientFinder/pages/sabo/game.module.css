@@ -1,0 +1,15 @@
+.screen{
+    display: grid;    
+    box-shadow: inset 0px 0px 2px 2px grey;
+    grid-gap: 5px;
+    margin: 10px 10px;
+    padding: 10px;
+}
+
+.categoryContainer{
+    display: grid;
+}
+
+.contentContainer{
+    display: grid;
+}
