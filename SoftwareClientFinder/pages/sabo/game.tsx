@@ -1,7 +1,7 @@
-import { ReactElement, useState } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import { GridTail, pageChangeEvent } from "../../components/Functional/TableControls"
 import Layout from "../../components/layout"
-import { GetGameRecords, GameListedRecord, GetGameRecordsWithGuessState, GetGameRecordsWithVotingState, GetGameRecordsOfUser, GetActiveGameRecordsOfUser, GameListedRecords, PaginationValue } from "../../drivers/GameDataDriver"
+import { GameListedRecord, GetGameRecordsWithGuessState, GetGameRecordsWithVotingState, GetActiveGameRecordsOfUser, GameListedRecords, PaginationValue } from "../../drivers/GameDataDriver"
 import styles from "./game.module.css"
 
 function GameScreen(){
@@ -55,9 +55,6 @@ export default function Game() {
 function DoGamesList(input: SubStateValue){
     var onNewGameClick = ()=> input.StateCallback();
     
-    var [usersGamePage, setUsersGamePage]:[PaginationValue, Function] = useState({page: 0, itemsPerPage: 5})
-    var [recordsOfGames, setRecordsPage]:[PaginationValue, Function] = useState({page: 0, itemsPerPage: 5})
-    
     return (
         <div className={styles.lobbyGrid}>
             <div 
@@ -66,10 +63,12 @@ function DoGamesList(input: SubStateValue){
                 >{
                     'CreateNewGame'
                 }</div>
-            <div>Your Games</div>
-            {RenderGameRecordTable(GetActiveGameRecordsOfUser(usersGamePage), setUsersGamePage)}
-            <div>Open Games</div>
-            {RenderGameRecordTable(GetActiveGameRecordsOfUser(recordsOfGames), setRecordsPage)}
+            <div>Your Games
+                <RenderGameRecordTable func={GetActiveGameRecordsOfUser}/>
+            </div>
+            <div>Open Games
+                <RenderGameRecordTable func={GetGameRecordsWithGuessState}/>
+            </div>
         </div>
     )
 }
@@ -81,33 +80,49 @@ function Clamp(input:number, lowerRange:number, upperRange:number){
     if(lowerResult <= 0)
         return lowerResult
     
-    if(upperResult < 0)
+    if(upperResult >= 0)
         return upperResult
 
     return input;
 }
 
-function RenderGameRecordTable(games: GameListedRecords, onPageChange: Function){
-    var listOfGames = games.records.map((e,i) => GenerateGameListItem(e))
+function RenderGameRecordTable({func}:{func:Function}){
+
+    var [{hash,games}, setGameRecords]:[{hash:number, games: GameListedRecords}, Function] = useState({hash: Math.random(), games: {} as GameListedRecords})
+
+    var gamesRecords:PaginationValue = {page: 0, itemsPerPage: 5}
+
+    var updateGrid = ()=>{
+        func(gamesRecords).then((e:GameListedRecords)=>setGameRecords({hash: Date.now(), games:e}))
+    }
+
+    useEffect(()=>updateGrid(), [])
+
+    var listOfGames = games.records?.map((e,i) => GenerateGameListItem(e, hash))
 
     return (
         <div className={styles.gameListGrid}>
             {listOfGames}
             <GridTail 
                 maxPage={games.maxPage} 
-                currentPage={games.page} 
-                onPageChange={(evt:pageChangeEvent)=>onPageChange({page: Clamp(evt.pageDelta, 0, games.maxPage)+games.page , itemsPerPage: games.itemsPerPage})}
+                currentPage={Number.isInteger(games.page)?games.page:0} 
+                onPageChange={(evt:pageChangeEvent)=>{
+                    var change = Clamp(evt.pageDelta, 0, games.maxPage)+games.page
+                    
+                    gamesRecords = {page: change, itemsPerPage: gamesRecords.itemsPerPage}
+                    updateGrid()
+                }}
             />
         </div>
     )
 }
 
-function GenerateGameListItem({id, content, gameState, turn, gameplayStatus}: GameListedRecord){
+function GenerateGameListItem({id, content, gameState, turn, gameplayStatus}: GameListedRecord, hash: number){
     
     var showTurns = gameState == 'guessing'? turn : '-/-';
     
     return (
-        <div key={id} className={styles.gameListRow}>
+        <div key={`${id}`} className={styles.gameListRow}>
         <div className={styles.gameListItem}>{gameState}</div>
             <div className={styles.gameListItem}>{showTurns}</div>
             {<div className={[styles.gameListItem, styles.gameListItemAction].join(' ')}>{gameplayStatus}</div>}

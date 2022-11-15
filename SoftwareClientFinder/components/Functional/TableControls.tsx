@@ -22,7 +22,7 @@ export function GridTail({currentPage, maxPage, onPageChange}: pageModel){
     return (
         <div className={styles.paginationGroup}>
             <div className={showLeftArrow} onClick={clickLeft}>&#171;</div>
-            <div className={styles.paginationValue}>{currentPage}</div>
+            <div className={styles.paginationValue}>{currentPage+1}</div>
             <div className={showRightArrow} onClick={clickRight}>&#187;</div>
         </div>
     )

@@ -34,61 +34,37 @@ var sampleRecords : GameListedRecord[] = new Array(0,0,0,0)
     ({
         id: i,
         content: `${e}`,
-        gameState: 'guessing',
+        gameState: 'guessing2',
         turn: '3/5',
         gameplayStatus: 'Join'
     })
 )
 
-/*
-    Fetch all the game records
-    Query assumes pagination
-*/
-export function GetGameRecords():GameListedRecords{
-    
+export async function GetGameRecordsWithGuessState({page, itemsPerPage}:PaginationValue){
     return {
-        records: sampleRecords,
-        page: 0,
-        maxPage: 1,
-        index: 0,
-        itemsPerPage: 5,
-    }
-}
-
-export function GetGameRecordsWithGuessState({page, itemsPerPage}:PaginationValue){
-         
-    console.log(page)
-
-    return {
-        records: sampleRecords.map(e=>{e.gameState='guessing'; return e}),
+        records: sampleRecords.map(e=>{e.gameState=`guessing ${page}`; return e}),
         page: page,
-        maxPage: 1,
+        maxPage: 2,
         index: 0,
         itemsPerPage: 5,
     }
 }
 
 export function GetGameRecordsWithVotingState({page, itemsPerPage}:PaginationValue){
-       
-    console.log(page)
-
     return {
         records: sampleRecords.map(e=>{e.gameState='voting'; return e}),
         page: page,
-        maxPage: 1,
+        maxPage: 2,
         index: 0,
         itemsPerPage: 5,
     }
 }
 
 export function GetGameRecordsWithCompletedState({page, itemsPerPage}:PaginationValue){
-   
-    console.log(page)
-
     return {
         records: sampleRecords.map(e=>{e.gameState='complete'; return e}),
         page: page,
-        maxPage: 1,
+        maxPage: 2,
         index: 0,
         itemsPerPage: 5,
     }
@@ -96,14 +72,12 @@ export function GetGameRecordsWithCompletedState({page, itemsPerPage}:Pagination
 
 
 //get the game records which the user is a part of.
-export function GetActiveGameRecordsOfUser({page, itemsPerPage}:PaginationValue){
-    
-    console.log(page)
-    
+export async function GetActiveGameRecordsOfUser({page, itemsPerPage}:PaginationValue){
+
     return {
         records: sampleRecords.map(e=>{e.gameState=`guessing ${page}`; return e}),
         page: page,
-        maxPage: 1,
+        maxPage: 2,
         index: 0,
         itemsPerPage: 5,
     }
