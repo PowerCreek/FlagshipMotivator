@@ -1,3 +1,8 @@
+.outerContainer{
+    padding: calc(30% - 25px) 10px;
+    scroll-snap-align: center;
+}
+
 .sloganText{
     font-size: 45pt;
 }
@@ -7,9 +12,29 @@
 }
 
 .pad_10 > * {
-  padding: 10px;
+    padding: 10px;
+  }
+
+.pad_5 > * {
+    padding: 5px;
+}
+
+.pad_5_top > *:first-child{
+    padding: 5px;
 }
 
 .mar_10 > * {
     margin: 10px;
-  }
+}
+
+.mar_0w_10h {
+    margin: 10px 0px;
+}
+
+.mar_rm_0w_10h_g1 > *:not(:first-child){
+    margin: 0px 10px;
+}
+
+.contentFontSize{
+    font-size: 16pt;
+}

@@ -15,24 +15,26 @@ export interface MarkupGroup{
 }
 
 const MarkupTags = {
-    bigLabel: (e:string)=> <h1>{e}</h1>,
-    bigLabel2: (e:string)=> <div className={styles.sloganText}>{e}</div>,
+    div: (e:any) => <div>{e}</div>,
+    bigLabel: (e:any)=> <h1>{e}</h1>,
+    bigLabel2: (e:any)=> <div className={styles.sloganText}>{e}</div>,
 }
 
 function GetComponentFromMarkup(data: MarkupData):JSX.Element{
     return MarkupTags[data.tag as keyof typeof MarkupTags](data.text);
 }
 
-
 var getUsedClassesString = (classes: string[]):string => classes.join(' ');
 
 export function MapMarkdownContent(markup: MarkupGroup[]){
     return markup.map(group => 
         (key: number)=>
-        <div key={key} className={getUsedClassesString(group.styleClasses)}>
-            {group.values.map(((e,i)=>
-                <div key={i}>{GetComponentFromMarkup(e)}</div>
-            ))}
+        <div key={key} className={mkStyles.outerContainer}>
+            <div key={key} className={getUsedClassesString(group.styleClasses)}>
+                {group.values.map(((e,i)=>
+                    <div key={i}>{GetComponentFromMarkup(e)}</div>
+                    ))}
+            </div>
         </div>
     )
 }
