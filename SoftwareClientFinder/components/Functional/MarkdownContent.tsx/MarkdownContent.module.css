@@ -1,6 +1,16 @@
 .outerContainer{
-    padding: calc(30% - 25px) 10px;
-    scroll-snap-align: center;
+    margin: calc(30vh - 25px) 10px calc(80vh - 25px) ;
+    padding: 20px 0px;
+    scroll-snap-align: start;
+    max-width: 700px;
+}
+
+.titledParagraph > :first-child{
+    font-size: 28pt;
+}
+
+.oneAndOneHalfLineHeight > *{
+    line-height: 1.5;
 }
 
 .sloganText{
@@ -15,8 +25,12 @@
     padding: 10px;
   }
 
-.pad_5 > * {
+.pad_5_g1 > * {
     padding: 5px;
+}
+
+.pad_15_g1 > * {
+    padding: 15px;
 }
 
 .pad_5_top > *:first-child{
@@ -37,4 +51,12 @@
 
 .contentFontSize{
     font-size: 16pt;
+}
+
+.titleTheme > :first-child{
+    color: #478589;
+}
+
+.subItem_2_theme > :nth-child(2){
+    color: #478589;
 }

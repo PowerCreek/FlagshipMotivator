@@ -21,7 +21,6 @@ function GetTextContent(): MarkupGroup[] {
             mkStyles.centerPiece,
             mkStyles.boxedGroup, 
             mkStyles.pad_10,
-            mk
 
         ]),
 

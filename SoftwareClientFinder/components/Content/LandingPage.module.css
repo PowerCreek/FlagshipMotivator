@@ -9,4 +9,5 @@
 .landingPageContent{
     grid-column: 2 / -1;
     grid-row: 2 / span 2;
+    background-color: black;
 }
