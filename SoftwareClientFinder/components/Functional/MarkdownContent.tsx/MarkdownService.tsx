@@ -1,8 +1,17 @@
+import { group } from 'console';
 import styles from './MarkdownContent.module.css'
+
+export const mkStyles = styles;
 
 export interface MarkupData{
     tag: string,
     text: string
+}
+
+export interface MarkupGroup{
+    groupLabel: string,
+    styleClasses: string[]|[],
+    values: MarkupData[]
 }
 
 const MarkupTags = {
@@ -14,13 +23,24 @@ function GetComponentFromMarkup(data: MarkupData):JSX.Element{
     return MarkupTags[data.tag as keyof typeof MarkupTags](data.text);
 }
 
-export function MapMarkdownContent(markup: MarkupData[][]){
-    return markup.map(arr => 
+
+var getUsedClassesString = (classes: string[]):string => classes.join(' ');
+
+export function MapMarkdownContent(markup: MarkupGroup[]){
+    return markup.map(group => 
         (key: number)=>
-        <div key ={key}>
-            {arr.map(((e,i)=>
+        <div key={key} className={getUsedClassesString(group.styleClasses)}>
+            {group.values.map(((e,i)=>
                 <div key={i}>{GetComponentFromMarkup(e)}</div>
             ))}
         </div>
     )
+}
+
+export function MakeMarkupGroup(label: string, values: MarkupData[], styleClasses:string[]=[]): MarkupGroup{
+    return {
+        groupLabel: label,
+        styleClasses: styleClasses,
+        values: values
+    }
 }

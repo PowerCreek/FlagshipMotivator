@@ -1,3 +1,15 @@
 .sloganText{
     font-size: 45pt;
 }
+
+.boxedGroup{
+  box-shadow: inset 0px 0px 21px -14px black;
+}
+
+.pad_10 > * {
+  padding: 10px;
+}
+
+.mar_10 > * {
+    margin: 10px;
+  }
