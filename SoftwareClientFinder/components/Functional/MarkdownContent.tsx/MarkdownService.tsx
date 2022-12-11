@@ -1,6 +1,6 @@
-export {}
+import styles from './MarkdownContent.module.css'
 
-interface MarkupData{
+export interface MarkupData{
     tag: string,
     text: string
 }
@@ -14,7 +14,7 @@ function GetComponentFromMarkup(data: MarkupData):JSX.Element{
     return MarkupTags[data.tag as keyof typeof MarkupTags](data.text);
 }
 
-function MapMarkdownContent(markup: MarkupData[][]){
+export function MapMarkdownContent(markup: MarkupData[][]){
     return markup.map(arr => 
         (key: number)=>
         <div key ={key}>

@@ -1,0 +1,12 @@
+.landingPageContentContainer{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min-content, 100px));
+    grid-auto-flow: column;
+    grid-auto-rows: 100px;
+}
+
+.landingPageContent{
+    background-color: red;
+    grid-column: 2 / -2;
+    grid-row: 2 / span 2;
+}
