@@ -17,13 +17,17 @@ function GetTextContent(): MarkupGroup[] {
             },
         ], 
         [
+            mkStyles.subItem_2_theme,
             mkStyles.centerPiece,
             mkStyles.boxedGroup, 
-            mkStyles.pad_10
+            mkStyles.pad_10,
+            mk
+
         ]),
 
         MakeMarkupGroup('explainer', [
-            'There will be many many features that we are planning for the platform. This platform is meant to assist streamers and viewers provide an even better experience than just a video player, and alerts.',
+            'There will be many many features that we are planning for the platform.',
+            'This platform is meant to assist streamers and viewers provide an even better experience than just a video player, and alerts.',
             'The goal for us is to create a group of systems which enhance the viewer experience and allow for better interactivity between the content creators and their audience.',
             'Our mission is to create a platform for everyone that relies on entertaining their audience as their livelihood to have an avenue of success through our services.'
         ].map(e=>({
@@ -31,9 +35,12 @@ function GetTextContent(): MarkupGroup[] {
             text: e
         })),
         [
+            mkStyles.titleTheme,
+            mkStyles.titledParagraph,
+            mkStyles.oneAndOneHalfLineHeight,
             mkStyles.centerPiece,
             mkStyles.boxedGroup,
-            mkStyles.pad_5,
+            mkStyles.pad_15_g1,
             mkStyles.mar_rm_10_g1,
             mkStyles.contentFontSize
         ]),
@@ -55,11 +62,14 @@ function GetTextContent(): MarkupGroup[] {
             text: e
         })),
         [
+            mkStyles.titleTheme,
+            mkStyles.titledParagraph,
             mkStyles.centerPiece,
             mkStyles.boxedGroup,
-            mkStyles.pad_5,
+            mkStyles.pad_15_g1,
             mkStyles.mar_rm_10_g1,
-            mkStyles.contentFontSize
+            mkStyles.contentFontSize,
+            mkStyles.oneAndOneHalfLineHeight,
         ]),
 
         MakeMarkupGroup('Second_Milestones', [
@@ -70,11 +80,14 @@ function GetTextContent(): MarkupGroup[] {
             text: e
         })),
         [
+            mkStyles.titleTheme,
+            mkStyles.titledParagraph,
             mkStyles.centerPiece,
             mkStyles.boxedGroup,
-            mkStyles.pad_5,
+            mkStyles.pad_15_g1,
             mkStyles.mar_rm_10_g1,
-            mkStyles.contentFontSize
+            mkStyles.contentFontSize,
+            mkStyles.oneAndOneHalfLineHeight,
         ]),     
     ]
 }
