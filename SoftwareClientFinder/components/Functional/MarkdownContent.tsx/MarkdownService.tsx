@@ -30,7 +30,7 @@ export function MapMarkdownContent(markup: MarkupGroup[]){
     return markup.map(group => 
         (key: number)=>
         <div key={key} className={mkStyles.outerContainer}>
-            <div key={key} className={getUsedClassesString(group.styleClasses)}>
+            <div className={getUsedClassesString(group.styleClasses)}>
                 {group.values.map(((e,i)=>
                     <div key={i}>{GetComponentFromMarkup(e)}</div>
                     ))}
